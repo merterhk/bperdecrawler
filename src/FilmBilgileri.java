@@ -105,7 +105,7 @@ public class FilmBilgileri {
 
     public String yapimYili() {
         String temp;
-        Pattern p = Pattern.compile("(Yapım yılı:.*\">)(\\d{4})(</span>)");
+        Pattern p = Pattern.compile("(Yapım yılı:.*?\">)(\\d{4})(</span>)");
         Matcher m = p.matcher(source);
         if (m.find()) {
             temp = m.group(2);
