@@ -1,0 +1,13 @@
+Geliştiren: Merter Hami Karacan
+
+Bu proje beyazperde.com sitesinden film ve film detaylarını çekmek
+için geliştirildi.
+
+Proje, tekrar yapılacak taramalara duyarlıdır. Yani çekilen kayıt mevcut
+ise ekleme yerine güncelleme yapar.
+
+Çekilen bilgiler MySql veritabanında saklanır.
+
+Jar dosyasını çalıştırmak için : "java -jar Beyazperde.jar"
+
+Güncelleme işlemleri henüz yazılmamıştır..!
