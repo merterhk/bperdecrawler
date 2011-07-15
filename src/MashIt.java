@@ -22,7 +22,7 @@ public class MashIt {
                 source += inputLine;
             }
             in.close();
-            source = new String(source.getBytes(), "UTF-8");
+//            source = new String(source.getBytes(), "UTF-8");
 
         } catch (Exception e) {
             System.out.println("Mash Error." + e.getLocalizedMessage());
