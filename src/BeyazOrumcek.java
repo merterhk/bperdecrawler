@@ -54,7 +54,7 @@ public class BeyazOrumcek {
                         FilmBilgileri fb = new FilmBilgileri();
                         fb.tumunuCek(film);
                         fb.kaydet();
-                        System.out.println(film);
+                        System.out.println(film+" ("+fb.filmIsmi+")");
                     }
 
                     page++;

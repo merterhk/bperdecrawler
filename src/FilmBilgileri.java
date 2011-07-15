@@ -192,7 +192,7 @@ public class FilmBilgileri {
                 vt.execute("insert ignore into cinema_directors (name) values ('" + yonetmen + "'); ");
                 ResultSet rs = vt.executeQuery("select * from cinema_directors where name like '" + yonetmen + "';");
                 int yonetmenId = (rs.next()) ? rs.getInt("id") : -1;
-                System.out.println(yonetmenId);
+//                System.out.println(yonetmenId);
 
                 for (String oyuncu : oyuncular) {
                     vt.execute("insert ignore into cinema_artists (name) values ('" + oyuncu + "')");
@@ -232,7 +232,7 @@ public class FilmBilgileri {
         FilmBilgileri bg = new FilmBilgileri();
         System.out.println("Deneme film bilgileri.");
 //        bg.grabSource("http://www.beyazperde.com/filmler/film-19776/");
-        bg.tumunuCek("19776");
+        bg.tumunuCek("6432");
         bg.kaydet();
 //        System.out.println(bg.filmIsmi());
 //        System.out.println(bg.vizyonTarihi());
