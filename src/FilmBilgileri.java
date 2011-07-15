@@ -6,6 +6,7 @@
  * tumunuCek() metodu dışındaki metodlar sadece değeri geri döndürür.tumunuCek() metodu değişkenleri günceller.
  *
  */
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -187,24 +188,34 @@ public class FilmBilgileri {
                 | cinema_years           |+
                  */
                 int fid = vt.executeAndGetLastID("insert ignore into cinema_movies (title,href,status) values ('" + filmIsmi + "','" + filmId + "',1)");
-
                 /* Bilgiler ekleniyor.. */
-                int yonetmenId = vt.executeAndGetLastID("insert ignore into cinema_directors (name) values ('" + yonetmen + "')");
+                vt.execute("insert ignore into cinema_directors (name) values ('" + yonetmen + "'); ");
+                ResultSet rs = vt.executeQuery("select * from cinema_directors where name like '" + yonetmen + "';");
+                int yonetmenId = (rs.next()) ? rs.getInt("id") : -1;
+                System.out.println(yonetmenId);
+
                 for (String oyuncu : oyuncular) {
                     vt.execute("insert ignore into cinema_artists (name) values ('" + oyuncu + "')");
                 }
                 vt.execute("insert ignore into cinema_genres (name) values ('" + tur + "')");
                 vt.execute("insert ignore into cinema_years (year) values (" + yapimYili + ")");
-                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + fid + ",'tur','" + tur + "')");
-                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + fid + ",'yapimYili','" + yapimYili + "')");
-//                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + fid + ",'ozet','" + ozet + "')");
-                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + fid + ",'ulke','" + ulke + "')");
-                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + fid + ",'orjinalAdi','" + orjinalAdi + "')");
-                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + fid + ",'vizyontarihi','" + vizyonTarihi + "')");
+
+                /* Varsa eski bilgilerin silinmesine... */
+                vt.execute("delete from cinema_properties where movieId like '" + filmId + "'");
+                vt.execute("delete from cinema_movieDirectors where movieId like '" + filmId + "'");
+                vt.execute("delete from cinema_movieYears where movieId like '" + filmId + "'");
+
+                /* Propertieslerin eklenmesine... */
+                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + filmId + ",'tur','" + tur + "')");
+                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + filmId + ",'yapimYili','" + yapimYili + "')");
+//                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + fid + ",'ozet','{" + ozet + "}')");
+                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + filmId + ",'ulke','" + ulke + "')");
+                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + filmId + ",'orjinalAdi','" + orjinalAdi + "')");
+                vt.execute("insert ignore into cinema_properties (movieId,name,value) values (" + filmId + ",'vizyontarihi','" + vizyonTarihi + "')");
 
                 /* Bağlantılar ekleniyor.. */
-                vt.execute("insert ignore into cinema_movieDirectors (movieId,directorId) values ("+fid+"," + yonetmenId + ")");
-                vt.execute("insert ignore into cinema_movieYears (movieId,year) values ("+fid+"," + yapimYili + ")");
+                vt.execute("insert ignore into cinema_movieDirectors (movieId,directorId) values (" + filmId + "," + yonetmenId + ")");
+                vt.execute("insert ignore into cinema_movieYears (movieId,year) values (" + filmId + "," + yapimYili + ")");
 
 
             } else {
